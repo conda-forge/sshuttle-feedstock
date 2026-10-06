@@ -1,5 +1,5 @@
 {% set name = "sshuttle" %}
-{% set version = "1.1.1" %}
+{% set version = "2.0.0" %}
 
 
 package:
@@ -7,23 +7,23 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/sshuttle-{{ version }}.tar.gz
-  sha256: f5a3ed1e5ab1213c7a6df860af41f1a903ab2cafbfef71f371acdcff21e69ee6
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/sshuttle-{{ version }}.tar.gz
+  sha256: 7347ff01093d471c4e9a299b9c7abd4a18eac4fddfd4cf868bedc623cab71091
 
 build:
   number: 0
   noarch: python
   entry_points:
     - sshuttle = sshuttle.cmdline:main
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
+    - python {{ python_min }}
+    - hatchling
     - pip
-    - python >=3.8
-    - setuptools_scm
   run:
-    - python >=3.8
+    - python >={{ python_min }}
 
 test:
   imports:
@@ -33,6 +33,7 @@ test:
     - pip check
     - sshuttle --help
   requires:
+    - python {{ python_min }}
     - pip
 
 about:
